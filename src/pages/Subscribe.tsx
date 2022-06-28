@@ -1,7 +1,7 @@
-import { gql, useMutation } from "@apollo/client";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
+import { useCreateSubscriberMutation } from "../graphql/generated";
 
 
 export function Subscribe() {
@@ -10,10 +10,12 @@ export function Subscribe() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  const [createSubscriber, { loading }] =  useMutation(CREATE_SUBSCRIBER_MUTATION)
+  const [createSubscriber, { loading }] = useCreateSubscriberMutation()
 
-  async function hendleSubscribe(event: FormEvent) {
+  const hendleSubscribe= async (event: FormEvent) => {
     event.preventDefault();
+
+    console.log(name, email)
 
    await createSubscriber({
       variables: {
@@ -56,9 +58,9 @@ export function Subscribe() {
         />
 
         <button
-          type="submit"
-          disabled={loading}
-          className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50">
+          type="submit"          
+          className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50"
+          disabled={loading}>
             Garantir minha vaga
         </button>
       </form>
